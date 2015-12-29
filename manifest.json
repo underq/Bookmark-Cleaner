@@ -1,9 +1,11 @@
 {
   "name": "Bookmarks Cleaner",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "Clean 404 bookmarks",
   "permissions": [
-    "bookmarks"
+    "bookmarks",
+    "http://*/*",
+    "https://*/*"
   ],
   "browser_action": {
       "default_title": "Bookmarks Cleaner",
@@ -11,5 +13,5 @@
       "default_popup": "popup.html"
   },
   "manifest_version": 2,
-  "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self' 'http://*/' 'https://*/'"
+  "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'"
 }
