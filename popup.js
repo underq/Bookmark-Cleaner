@@ -40,3 +40,12 @@ document.addEventListener('DOMContentLoaded', function () {
   cleanBookmarks();
   console.log(list);
 });
+
+document.getElementById("uninstall").addEventListener('click', function() {
+  var options = {'showConfirmDialog': true};
+  chrome.management.uninstallSelf(options);
+});
+
+$(document).ajaxStop(function () {
+  $('#loading').hide();
+});
