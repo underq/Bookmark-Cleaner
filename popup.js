@@ -14,7 +14,7 @@ function dumpTreeNodes(bookmarkNodes) {
 }
 
 function listBookmarkUrl(bookmarkNode) {
-  if (bookmarkNode.title && bookmarkNode.url) {
+  if (bookmarkNode.title && bookmarkNode.url && isValidUrl(bookmarkNode.url)) {
     $.ajax({
       url: bookmarkNode.url,
       timeout:5000,
@@ -29,8 +29,11 @@ function listBookmarkUrl(bookmarkNode) {
   }
 }
 
-function isExternalUrl() {
-
+function isValidUrl(url) {
+  var regexp = 'localhost|chrome://';
+  if (url.search(regexp) === -1) {
+    return true;
+  }
 }
 
 document.addEventListener('DOMContentLoaded', function () {
