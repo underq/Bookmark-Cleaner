@@ -1,5 +1,3 @@
-var list = new Array();
-
 function cleanBookmarks() {
   chrome.bookmarks.getTree(
     function(bookmarkTreeNodes) {
@@ -14,13 +12,23 @@ function dumpTreeNodes(bookmarkNodes) {
 }
 
 function listBookmarkUrl(bookmarkNode) {
+  var listHtml = $('ul#bookmarks');
   if (bookmarkNode.title && bookmarkNode.url && isValidUrl(bookmarkNode.url)) {
     $.ajax({
       url: bookmarkNode.url,
       timeout:5000,
     }).fail(function (jqXHR, textStatus) {
-      console.log(jqXHR.statusCode())
-      list.push(bookmarkNode);
+      var anchor = $('<a>');
+      anchor.attr('href', bookmarkNode.url);
+      anchor.text(bookmarkNode.title);
+      anchor.click(function() {
+        chrome.tabs.create({url: bookmarkNode.url});
+      });
+      var info = $('<span>');
+      info.attr('class', 'text-danger');
+      info.text('[' + jqXHR.status + ' ' +  jqXHR.statusText + '] ');
+      var info = info.add(anchor);
+      listHtml.append($('<li>').append(info));
     });
   }
 
@@ -38,7 +46,6 @@ function isValidUrl(url) {
 
 document.addEventListener('DOMContentLoaded', function () {
   cleanBookmarks();
-  console.log(list);
 });
 
 document.getElementById("uninstall").addEventListener('click', function() {
@@ -48,4 +55,5 @@ document.getElementById("uninstall").addEventListener('click', function() {
 
 $(document).ajaxStop(function () {
   $('#loading').hide();
+  $('#uninstall').removeClass('hidden');
 });
